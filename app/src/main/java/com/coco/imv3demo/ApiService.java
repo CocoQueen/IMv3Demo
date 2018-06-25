@@ -1,9 +1,14 @@
 package com.coco.imv3demo;
 
 import com.google.gson.JsonObject;
+
+import org.json.JSONObject;
+
 import java.util.List;
 
+import okhttp3.Callback;
 import okhttp3.ResponseBody;
+import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
@@ -312,8 +317,9 @@ public interface ApiService {
 
     //============================IM===========================================
 
+    //https://www.jianshu.com/p/fe3e2052f46f
     @GET(ApiConstant.GENTLS_SIGNATURE_EX)
-    Observable<String> getSig(@Header("x-auth-token") String token);
+    Call<JSONObject> getSig(@Header("x-auth-token") String token);
 
 
 

@@ -25,6 +25,7 @@ import com.tencent.imsdk.TIMImageElem;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMMessageListener;
+import com.tencent.imsdk.TIMSoundElem;
 import com.tencent.imsdk.TIMTextElem;
 import com.tencent.imsdk.TIMValueCallBack;
 
@@ -163,6 +164,10 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
+    //https://blog.csdn.net/holee_bk/article/details/69252085
+    //https://blog.csdn.net/xiaolaohuqwer/article/details/52070827
+    //https://blog.csdn.net/qq_40543575/article/details/79592971
+
     private void sendImgMsg() {
 
         // 创建File对象,用于存储选择的照片
@@ -184,17 +189,13 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         intent.putExtra("scale", true);
         //图片的输出位置
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-        startActivityForResult(intent,Cut_PHOTO);
-
-
-
-
+        startActivityForResult(intent, Cut_PHOTO);
 
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode){
+        switch (requestCode) {
             case Cut_PHOTO:
                 if (resultCode == RESULT_OK) {
                     uri = data.getData();
@@ -209,23 +210,23 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             case SHOW_PHOTO_ALBUM:
                 if (resultCode == RESULT_OK) {
                     Uri uri = data.getData();
-                    Cursor cursor = getContentResolver().query(uri, null, null, null,null);
+                    Cursor cursor = getContentResolver().query(uri, null, null, null, null);
                     if (cursor != null && cursor.moveToFirst()) {
                         path = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA));
 
                         //构造一条消息
                         TIMMessage msg = new TIMMessage();
-//添加图片
+                        //添加图片
                         TIMImageElem elem = new TIMImageElem();
                         elem.setPath(path);
 
-//将 elem 添加到消息
+                        //将 elem 添加到消息
                         if (msg.addElement(elem) != 0) {
                             Log.d(TAG, "addElement failed");
                             return;
                         }
 
-//发送消息
+                        //发送消息
                         conversation.sendMessage(msg, new TIMValueCallBack<TIMMessage>() {//发送消息回调
                             @Override
                             public void onError(int code, String desc) {//发送消息失败
@@ -245,5 +246,35 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         }
         super.onActivityResult(requestCode, resultCode, data);
 
+    }
+
+    private void sendVoiceMsg() {
+        //构造一条消息
+        TIMMessage msg = new TIMMessage();
+
+//添加语音
+        TIMSoundElem elem = new TIMSoundElem();
+        elem.setPath(Environment.getExternalStorageDirectory()+""); //填写语音文件路径
+        elem.setDuration(20);  //填写语音时长
+
+//将 elem 添加到消息
+        if (msg.addElement(elem) != 0) {
+            Log.d(TAG, "addElement failed");
+            return;
+        }
+//发送消息
+        conversation.sendMessage(msg, new TIMValueCallBack<TIMMessage>() {//发送消息回调
+            @Override
+            public void onError(int code, String desc) {//发送消息失败
+                //错误码code和错误描述desc，可用于定位请求失败原因
+                //错误码code含义请参见错误码表
+                Log.d(TAG, "send message failed. code: " + code + " errmsg: " + desc);
+            }
+
+            @Override
+            public void onSuccess(TIMMessage msg) {//发送消息成功
+                Log.e(TAG, "SendMsg ok");
+            }
+        });
     }
 }
