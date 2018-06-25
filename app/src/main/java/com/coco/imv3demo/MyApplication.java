@@ -45,7 +45,7 @@ public class MyApplication extends Application {
     private static final String TAG = "MyApplication";
 
     static MyApplication app;
-    int sdkAppId = 1400096181;
+    int sdkAppId = 1400104919;
 
     @Override
     public void onCreate() {
@@ -60,7 +60,6 @@ public class MyApplication extends Application {
 
 //初始化 SDK 基本配置
         TIMSdkConfig config = new TIMSdkConfig(sdkAppId)
-//                .setAccoutType("18395")
                 .enableCrashReport(false)
                 .enableLogPrint(true)
                 .setLogLevel(TIMLogLevel.DEBUG);
@@ -173,7 +172,7 @@ public class MyApplication extends Application {
 //                        Log.i(TAG, "OnFriendGroupUpdate");
 //                    }
 //                });
-
+//
 //        //群组管理扩展用户配置
 //        userConfig = new TIMUserConfigGroupExt(userConfig)
 //                //开启群组资料本地存储

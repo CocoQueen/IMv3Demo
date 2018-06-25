@@ -5,24 +5,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.coco.imv3demo.MainActivity">
+    tools:context="com.coco.imv3demo.ChatActivity">
 
     <EditText
-        android:id="@+id/user"
+        android:id="@+id/mEd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="lzllzllhl" />
+        android:hint="tips" />
 
-    <EditText
-        android:id="@+id/pass"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="12345678" />
     <Button
+        android:id="@+id/btn_send_all"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/btn"
-        android:text="登 录"
-        />
-
+        android:text="发送文本消息" />
+    <Button
+        android:id="@+id/btn_get_all"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="接收文本消息" />
+    <Button
+        android:id="@+id/btn_loginOut"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="退出" />
 </LinearLayout>

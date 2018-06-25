@@ -11,11 +11,11 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 //        useLibrary 'org.apache.http.legacy'
 //        添加完jar包之后加入,解决so文件不存在的问题
-        sourceSets{
-            main{
-                jniLibs.srcDirs=['libs']
-            }
-        }
+//        sourceSets{
+//            main{
+//                jniLibs.srcDirs=['libs']
+//            }
+//        }
 
     }
     buildTypes {
@@ -24,7 +24,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
 
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
 }
 
 dependencies {
@@ -40,5 +49,15 @@ dependencies {
     androidTestCompile('com.android.support:support-annotations:26.1.0') {
         force = true
     }
+
+    //rx
+    compile 'io.reactivex:rxjava:1.2.0'
+    compile 'io.reactivex:rxandroid:1.2.0'
+
+    //retrofit
+    compile 'com.squareup.retrofit2:retrofit:2.0.2'
+    compile 'com.squareup.retrofit2:converter-gson:2.0.2'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.2.0'
 
 }
