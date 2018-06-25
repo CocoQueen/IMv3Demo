@@ -1,6 +1,12 @@
 package com.coco.imv3demo;
 
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,6 +28,9 @@ import com.tencent.imsdk.TIMMessageListener;
 import com.tencent.imsdk.TIMTextElem;
 import com.tencent.imsdk.TIMValueCallBack;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +44,13 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private EditText mEd;
     private String content;
     private Button loginOut;
+    private Uri imageUri;
+    public static final int Cut_PHOTO = 1;
+    public static final int SHOW_PHOTO = 2;
+    public static final int PHOTO_ALBUM = 3;
+    public static final int SHOW_PHOTO_ALBUM = 4;
+    private Uri uri;
+    private String path;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,31 +164,86 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void sendImgMsg() {
-        //构造一条消息
-        TIMMessage msg = new TIMMessage();
+
+        // 创建File对象,用于存储选择的照片
+        File outputImage = new File(Environment.getExternalStorageDirectory(), "outputTest.jpg");
+        try {
+            if (outputImage.exists()) {
+                outputImage.delete();
+            }
+            outputImage.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        imageUri = Uri.fromFile(outputImage);
+        Intent intent = new Intent("android.intent.action.GET_CONTENT");
+        intent.setType("image/*");
+        //允许裁剪
+        intent.putExtra("crop", true);
+        //允许缩放
+        intent.putExtra("scale", true);
+        //图片的输出位置
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+        startActivityForResult(intent,Cut_PHOTO);
+
+
+
+
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode){
+            case Cut_PHOTO:
+                if (resultCode == RESULT_OK) {
+                    uri = data.getData();
+                    Intent intent = new Intent("com.android.camera.action.CROP");
+                    intent.setDataAndType(uri, "image/*");
+                    intent.putExtra("scale", true);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+                    // 启动裁剪
+                    startActivityForResult(intent, SHOW_PHOTO_ALBUM);
+                }
+                break;
+            case SHOW_PHOTO_ALBUM:
+                if (resultCode == RESULT_OK) {
+                    Uri uri = data.getData();
+                    Cursor cursor = getContentResolver().query(uri, null, null, null,null);
+                    if (cursor != null && cursor.moveToFirst()) {
+                        path = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA));
+
+                        //构造一条消息
+                        TIMMessage msg = new TIMMessage();
 //添加图片
-        TIMImageElem elem = new TIMImageElem();
-        elem.setPath(Environment.getExternalStorageDirectory() + "/DCIM/Camera/1.jpg");
+                        TIMImageElem elem = new TIMImageElem();
+                        elem.setPath(path);
 
 //将 elem 添加到消息
-        if (msg.addElement(elem) != 0) {
-            Log.d(TAG, "addElement failed");
-            return;
-        }
+                        if (msg.addElement(elem) != 0) {
+                            Log.d(TAG, "addElement failed");
+                            return;
+                        }
 
 //发送消息
-        conversation.sendMessage(msg, new TIMValueCallBack<TIMMessage>() {//发送消息回调
-            @Override
-            public void onError(int code, String desc) {//发送消息失败
-                //错误码 code 和错误描述 desc，可用于定位请求失败原因
-                //错误码 code 列表请参见错误码表
-                Log.d(TAG, "send message failed. code: " + code + " errmsg: " + desc);
-            }
+                        conversation.sendMessage(msg, new TIMValueCallBack<TIMMessage>() {//发送消息回调
+                            @Override
+                            public void onError(int code, String desc) {//发送消息失败
+                                //错误码 code 和错误描述 desc，可用于定位请求失败原因
+                                //错误码 code 列表请参见错误码表
+                                Log.d(TAG, "send message failed. code: " + code + " errmsg: " + desc);
+                            }
 
-            @Override
-            public void onSuccess(TIMMessage msg) {//发送消息成功
-                Log.e(TAG, "SendMsg ok");
-            }
-        });
+                            @Override
+                            public void onSuccess(TIMMessage msg) {//发送消息成功
+                                Log.e(TAG, "SendMsg ok");
+                            }
+                        });
+                    }
+                }
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+
     }
 }
