@@ -21,6 +21,8 @@ import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMElem;
 import com.tencent.imsdk.TIMElemType;
+import com.tencent.imsdk.TIMGroupAddOpt;
+import com.tencent.imsdk.TIMGroupMemberRoleType;
 import com.tencent.imsdk.TIMImageElem;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
@@ -77,12 +79,13 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_send_all:
-                sendImgMsg();
-//                sendTextMsg(TIMConversationType.C2C);
+                sendTextMsg(TIMConversationType.C2C);
                 mEd.setText("");
                 break;
             case R.id.btn_get_all:
-//                getTextMsg();
+                GroupMannagerUtils.getInstance().createGroup("Public", "coco",
+                        "introduction", "公告", username,
+                        TIMGroupAddOpt.TIM_GROUP_ADD_ANY, TIMGroupMemberRoleType.Owner);
                 break;
             case R.id.btn_loginOut:
                 loginOut();
@@ -254,7 +257,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
 //添加语音
         TIMSoundElem elem = new TIMSoundElem();
-        elem.setPath(Environment.getExternalStorageDirectory()+""); //填写语音文件路径
+        elem.setPath(Environment.getExternalStorageDirectory() + ""); //填写语音文件路径
         elem.setDuration(20);  //填写语音时长
 
 //将 elem 添加到消息

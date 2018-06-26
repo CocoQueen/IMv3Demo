@@ -319,7 +319,7 @@ public interface ApiService {
 
     //https://www.jianshu.com/p/fe3e2052f46f
     @GET(ApiConstant.GENTLS_SIGNATURE_EX)
-    Call<JSONObject> getSig(@Header("x-auth-token") String token);
+    Call<String> getSig(@Header("x-auth-token") String token);
 
 
 

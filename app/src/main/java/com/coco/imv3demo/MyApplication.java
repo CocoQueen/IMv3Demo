@@ -46,6 +46,7 @@ public class MyApplication extends Application {
 
     static MyApplication app;
     int sdkAppId = 1400104919;
+    int appcount=	29747;
 
     @Override
     public void onCreate() {
@@ -57,7 +58,7 @@ public class MyApplication extends Application {
 
     private void initSDK() {
 
-
+//        TLSLoginHelper loginHelper = TLSLoginHelper.getInstance().init(getApplicationContext(),ApiConstant.SDKAPPID,ApiConstant.ACCOUNTTYPE,"1.0");
 //初始化 SDK 基本配置
         TIMSdkConfig config = new TIMSdkConfig(sdkAppId)
                 .enableCrashReport(false)
