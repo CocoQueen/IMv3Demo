@@ -34,6 +34,7 @@ import com.tencent.imsdk.TIMValueCallBack;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -46,7 +47,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private static final String TAG = "ChatActivity";
     private EditText mEd;
     private String content;
-    private Button loginOut;
+    private Button loginOut,btn_invate;
     private Uri imageUri;
     public static final int Cut_PHOTO = 1;
     public static final int SHOW_PHOTO = 2;
@@ -70,6 +71,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         btn_all = findViewById(R.id.btn_send_all);
         btn_get = findViewById(R.id.btn_get_all);
         loginOut = findViewById(R.id.btn_loginOut);
+        btn_invate=findViewById(R.id.btn_invate);
+        btn_invate.setOnClickListener(this);
         btn_all.setOnClickListener(this);
         btn_get.setOnClickListener(this);
         loginOut.setOnClickListener(this);
@@ -83,9 +86,16 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 mEd.setText("");
                 break;
             case R.id.btn_get_all:
-                GroupMannagerUtils.getInstance().createGroup("Private", "coco",
+                GroupMannagerUtils.getInstance().createGroup("Private", "coco2",
                         "introduction", "公告", username,
-                        TIMGroupAddOpt.TIM_GROUP_ADD_FORBID, TIMGroupMemberRoleType.Owner);
+                        null,null);
+                break;
+            case R.id.btn_invate:
+//                ArrayList<String>list=new ArrayList<>();
+//                list.add("lzllzllhl2");
+//                GroupMannagerUtils.getInstance().getGroupList();
+//                GroupMannagerUtils.getInstance().inviteGroupMember("@TGS#1YYHUFJFF",list);
+                GroupMannagerUtils.getInstance().modifyGroupOwner("@TGS#1YYHUFJFF","lzllzllhl2");
                 break;
             case R.id.btn_loginOut:
                 loginOut();

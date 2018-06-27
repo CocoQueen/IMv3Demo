@@ -24,6 +24,12 @@
         android:layout_height="wrap_content"
         android:text="接收文本消息" />
     <Button
+        android:id="@+id/btn_invate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="邀请好友进群"
+        />
+    <Button
         android:id="@+id/btn_loginOut"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
