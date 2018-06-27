@@ -44,28 +44,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         login.setOnClickListener(this);
 
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://api.heydaycn.com/")
-                .addConverterFactory(ScalarsConverterFactory.create())
-                .build();
+//        Retrofit retrofit = new Retrofit.Builder()
+//                .baseUrl("https://api.heydaycn.com/")
+//                .addConverterFactory(ScalarsConverterFactory.create())
+//                .build();
+//
+//       ApiService service;
+//        service = retrofit.create(ApiService.class);
 
-       ApiService service;
-        service = retrofit.create(ApiService.class);
-
-        Call<String> call = service.getSig("x-auth-token");
-
-        call.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                String s = response.body();
-                Log.e(TAG, "onResponse: "+s);
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-
-            }
-        });
+//        Call<String> call = service.getSig("x-auth-token");
+//
+//        call.enqueue(new Callback<String>() {
+//            @Override
+//            public void onResponse(Call<String> call, Response<String> response) {
+//                String s = response.body();
+//                Log.e(TAG, "onResponse: "+s);
+//            }
+//
+//            @Override
+//            public void onFailure(Call<String> call, Throwable t) {
+//
+//            }
+//        });
 
 
     }

@@ -83,9 +83,9 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 mEd.setText("");
                 break;
             case R.id.btn_get_all:
-                GroupMannagerUtils.getInstance().createGroup("Public", "coco",
+                GroupMannagerUtils.getInstance().createGroup("Private", "coco",
                         "introduction", "公告", username,
-                        TIMGroupAddOpt.TIM_GROUP_ADD_ANY, TIMGroupMemberRoleType.Owner);
+                        TIMGroupAddOpt.TIM_GROUP_ADD_FORBID, TIMGroupMemberRoleType.Owner);
                 break;
             case R.id.btn_loginOut:
                 loginOut();

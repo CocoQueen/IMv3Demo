@@ -37,6 +37,9 @@ public class GroupMannagerUtils {
         return utils;
     }
 
+
+    /*群组管理*/
+
     /**
      * 创建群的方法
      *
@@ -310,5 +313,8 @@ public class GroupMannagerUtils {
             }
         });
     }
+
+
+    /*获取群组资料*/
 
 }
