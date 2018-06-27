@@ -18,17 +18,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="发送文本消息" />
+
     <Button
         android:id="@+id/btn_get_all"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="接收文本消息" />
+
     <Button
         android:id="@+id/btn_invate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="邀请好友进群"
-        />
+        android:text="邀请好友进群" />
+
+    <com.coco.imv3demo.utils.RecordButton
+        android:id="@+id/mBtn_sound"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="发送语音消息" />
+
     <Button
         android:id="@+id/btn_loginOut"
         android:layout_width="match_parent"

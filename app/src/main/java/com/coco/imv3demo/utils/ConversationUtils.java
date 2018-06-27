@@ -5,9 +5,12 @@ import android.util.Log;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMFaceElem;
+import com.tencent.imsdk.TIMFileElem;
 import com.tencent.imsdk.TIMImageElem;
+import com.tencent.imsdk.TIMLocationElem;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
+import com.tencent.imsdk.TIMSoundElem;
 import com.tencent.imsdk.TIMTextElem;
 import com.tencent.imsdk.TIMValueCallBack;
 
@@ -29,6 +32,7 @@ public class ConversationUtils {
 
     /**
      * 获取会话
+     * TODO  这个方法是发送任何类型的消息之前都必须要调用的方法
      *
      * @param type 会话类型
      * @param peer 参与会话的对方, C2C 会话为对方帐号 identifier, 群组会话为群组 Id
@@ -139,6 +143,129 @@ public class ConversationUtils {
         });
     }
 
+    /**
+     * 发送语音消息
+     *
+     * @param path
+     */
+    public void sendSoundMessage(String path) {
+        //构造一条消息
+        TIMMessage msg = new TIMMessage();
+
+        //添加语音
+        TIMSoundElem elem = new TIMSoundElem();
+        elem.setPath(path); //填写语音文件路径
+        elem.setDuration(20);  //填写语音时长
+
+        //将 elem 添加到消息
+        if (msg.addElement(elem) != 0) {
+            Log.d(TAG, "addElement failed");
+            return;
+        }
+        //发送消息
+        conversation.sendMessage(msg, new TIMValueCallBack<TIMMessage>() {//发送消息回调
+            @Override
+            public void onError(int code, String desc) {//发送消息失败
+                //错误码code和错误描述desc，可用于定位请求失败原因
+                //错误码code含义请参见错误码表
+                Log.d(TAG, "send message failed. code: " + code + " errmsg: " + desc);
+            }
+
+            @Override
+            public void onSuccess(TIMMessage msg) {//发送消息成功
+                Log.e(TAG, "SendMsg ok");
+            }
+        });
+    }
+
+    /**
+     * 发送位置消息
+     *
+     * @param latitude  纬度
+     * @param longitude 经度
+     * @param desc      描述
+     */
+    public void sendLocationMessage(int latitude, int longitude, String desc) {
+        //构造一条消息
+        TIMMessage msg = new TIMMessage();
+
+        //添加位置信息
+        TIMLocationElem elem = new TIMLocationElem();
+        elem.setLatitude(latitude);   //设置纬度
+        elem.setLongitude(longitude);   //设置经度
+        elem.setDesc(desc);
+
+        //将elem添加到消息
+        if (msg.addElement(elem) != 0) {
+            Log.d(TAG, "addElement failed");
+            return;
+        }
+        //发送消息
+        conversation.sendMessage(msg, new TIMValueCallBack<TIMMessage>() {//发送消息回调
+            @Override
+            public void onError(int code, String desc) {//发送消息失败
+                //错误码 code 和错误描述 desc，可用于定位请求失败原因
+                //错误码 code 含义请参见错误码表
+                Log.d(TAG, "send message failed. code: " + code + " errmsg: " + desc);
+            }
+
+            @Override
+            public void onSuccess(TIMMessage msg) {//发送消息成功
+                Log.e(TAG, "SendMsg ok");
+            }
+        });
+    }
+
+    /**
+     * 发送文件消息
+     *
+     * @param path     路径
+     * @param fileName 文件名字
+     */
+    public void sendFileMessage(String path, String fileName) {
+        //构造一条消息
+        TIMMessage msg = new TIMMessage();
+
+        //添加文件内容
+        TIMFileElem elem = new TIMFileElem();
+        elem.setPath(path); //设置文件路径
+        elem.setFileName(fileName); //设置消息展示用的文件名称
+
+        //将 elem 添加到消息
+        if (msg.addElement(elem) != 0) {
+            Log.d(TAG, "addElement failed");
+            return;
+        }
+        //发送消息
+        conversation.sendMessage(msg, new TIMValueCallBack<TIMMessage>() {//发送消息回调
+            @Override
+            public void onError(int code, String desc) {//发送消息失败
+                //错误码code和错误描述 desc，可用于定位请求失败原因
+                //错误码 code 含义请参见错误码表
+                Log.d(TAG, "send message failed. code: " + code + " errmsg: " + desc);
+            }
+
+            @Override
+            public void onSuccess(TIMMessage msg) {//发送消息成功
+                Log.e(TAG, "SendMsg ok");
+            }
+        });
+    }
+
+    public void sendOnlineMessage() {
+        TIMMessage msg = new TIMMessage();
 
 
+        conversation.sendMessage(msg, new TIMValueCallBack<TIMMessage>() {
+            @Override
+            public void onError(int i, String s) {
+                Log.e(TAG, "onError: " + i + "====" + s);
+            }
+
+            @Override
+            public void onSuccess(TIMMessage timMessage) {
+                Log.e(TAG, "onSuccess: " + "sendmsg ok");
+            }
+        });
+    }
 }

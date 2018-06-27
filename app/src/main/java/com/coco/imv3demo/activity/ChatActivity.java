@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.coco.imv3demo.R;
 import com.coco.imv3demo.utils.CameraAndPhotoUtils;
 import com.coco.imv3demo.utils.ConversationUtils;
+import com.coco.imv3demo.utils.RecordButton;
 import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
@@ -33,28 +34,22 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChatActivity extends AppCompatActivity implements View.OnClickListener {
+public class ChatActivity extends AppCompatActivity implements View.OnClickListener, RecordButton.OnFinishedRecordListener {
 
     private String username;
     private Button btn_all, btn_get;
+    RecordButton sound;
     private TIMConversation conversation;
     private static final String TAG = "ChatActivity";
     private EditText mEd;
     private String content;
-    private Button loginOut,btn_invate;
-//    private Uri imageUri;
-//    public static final int Cut_PHOTO = 1;
-//    public static final int SHOW_PHOTO = 2;
-//    public static final int PHOTO_ALBUM = 3;
-//    public static final int SHOW_PHOTO_ALBUM = 4;
-//    private Uri uri;
-//    private String path;
+    private Button loginOut, btn_invate;
 
     protected static final int CHOOSE_PICTURE = 0;
     protected static final int TAKE_PICTURE = 1;
     private static final int CROP_SMALL_PICTURE = 2;
     protected static Uri tempUri;
-    private List<String> pathlist=new ArrayList<String>();//存放图片路径的集合
+    private List<String> pathlist = new ArrayList<String>();//存放图片路径的集合
 
 
     @Override
@@ -72,19 +67,23 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         btn_all = findViewById(R.id.btn_send_all);
         btn_get = findViewById(R.id.btn_get_all);
         loginOut = findViewById(R.id.btn_loginOut);
-        btn_invate=findViewById(R.id.btn_invate);
+        btn_invate = findViewById(R.id.btn_invate);
+        sound = findViewById(R.id.mBtn_sound);
+
         btn_invate.setOnClickListener(this);
         btn_all.setOnClickListener(this);
         btn_get.setOnClickListener(this);
         loginOut.setOnClickListener(this);
+
+        sound.setOnFinishedRecordListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_send_all:
-                ConversationUtils.getInstance().getConversation(TIMConversationType.C2C,"lzllzllhl2");
-               ConversationUtils.getInstance().sendMessage(content);
+                ConversationUtils.getInstance().getConversation(TIMConversationType.C2C, "lzllzllhl2");
+                ConversationUtils.getInstance().sendMessage(content);
                 mEd.setText("");
                 break;
             case R.id.btn_get_all:
@@ -153,117 +152,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-
-
-//    private void sendImgMsg() {
-//
-//        // 创建File对象,用于存储选择的照片
-//        File outputImage = new File(Environment.getExternalStorageDirectory(), "outputTest.jpg");
-//        try {
-//            if (outputImage.exists()) {
-//                outputImage.delete();
-//            }
-//            outputImage.createNewFile();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        imageUri = Uri.fromFile(outputImage);
-//        Intent intent = new Intent("android.intent.action.GET_CONTENT");
-//        intent.setType("image/*");
-//        //允许裁剪
-//        intent.putExtra("crop", true);
-//        //允许缩放
-//        intent.putExtra("scale", true);
-//        //图片的输出位置
-//        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-//        startActivityForResult(intent, Cut_PHOTO);
-//
-//    }
-
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        switch (requestCode) {
-//            case Cut_PHOTO:
-//                if (resultCode == RESULT_OK) {
-//                    uri = data.getData();
-//                    Intent intent = new Intent("com.android.camera.action.CROP");
-//                    intent.setDataAndType(uri, "image/*");
-//                    intent.putExtra("scale", true);
-//                    intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-//                    // 启动裁剪
-//                    startActivityForResult(intent, SHOW_PHOTO_ALBUM);
-//                }
-//                break;
-//            case SHOW_PHOTO_ALBUM:
-//                if (resultCode == RESULT_OK) {
-//                    Uri uri = data.getData();
-//                    Cursor cursor = getContentResolver().query(uri, null, null, null, null);
-//                    if (cursor != null && cursor.moveToFirst()) {
-//                        path = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA));
-//
-//                        //构造一条消息
-//                        TIMMessage msg = new TIMMessage();
-//                        //添加图片
-//                        TIMImageElem elem = new TIMImageElem();
-//                        elem.setPath(path);
-//
-//                        //将 elem 添加到消息
-//                        if (msg.addElement(elem) != 0) {
-//                            Log.d(TAG, "addElement failed");
-//                            return;
-//                        }
-//
-//                        //发送消息
-//                        conversation.sendMessage(msg, new TIMValueCallBack<TIMMessage>() {//发送消息回调
-//                            @Override
-//                            public void onError(int code, String desc) {//发送消息失败
-//                                //错误码 code 和错误描述 desc，可用于定位请求失败原因
-//                                //错误码 code 列表请参见错误码表
-//                                Log.d(TAG, "send message failed. code: " + code + " errmsg: " + desc);
-//                            }
-//
-//                            @Override
-//                            public void onSuccess(TIMMessage msg) {//发送消息成功
-//                                Log.e(TAG, "SendMsg ok");
-//                            }
-//                        });
-//                    }
-//                }
-//                break;
-//        }
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//    }
-
-    private void sendVoiceMsg() {
-        //构造一条消息
-        TIMMessage msg = new TIMMessage();
-
-//添加语音
-        TIMSoundElem elem = new TIMSoundElem();
-        elem.setPath(Environment.getExternalStorageDirectory() + ""); //填写语音文件路径
-        elem.setDuration(20);  //填写语音时长
-
-//将 elem 添加到消息
-        if (msg.addElement(elem) != 0) {
-            Log.d(TAG, "addElement failed");
-            return;
-        }
-//发送消息
-        conversation.sendMessage(msg, new TIMValueCallBack<TIMMessage>() {//发送消息回调
-            @Override
-            public void onError(int code, String desc) {//发送消息失败
-                //错误码code和错误描述desc，可用于定位请求失败原因
-                //错误码code含义请参见错误码表
-                Log.d(TAG, "send message failed. code: " + code + " errmsg: " + desc);
-            }
-
-            @Override
-            public void onSuccess(TIMMessage msg) {//发送消息成功
-                Log.e(TAG, "SendMsg ok");
-            }
-        });
-    }
     /**
      * 显示调用本地相机的对话框
      */
@@ -271,7 +159,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         // TODO dialog弹出的方法
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("添加图片");
-        String[] items = { "选择本地照片", "相机" };
+        String[] items = {"选择本地照片", "相机"};
         builder.setNegativeButton("取消", null);
         builder.setItems(items, new DialogInterface.OnClickListener() {
 
@@ -298,9 +186,10 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         });
         builder.create().show();
     }
+
     /**
      * 回调
-     * */
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // TODO ？？？
@@ -351,7 +240,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
      * 保存裁剪之后的图片数据
      *
      * @param
-     *
      */
     protected void setImageToView(Intent data) {
         // TODO 将图片设置到控件上
@@ -363,9 +251,41 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                     .getExternalStorageDirectory().getAbsolutePath(), String
                     .valueOf(System.currentTimeMillis()));
 
-            ConversationUtils.getInstance().getConversation(TIMConversationType.C2C,"lzllzllhl2");
+            ConversationUtils.getInstance().getConversation(TIMConversationType.C2C, "lzllzllhl2");
             ConversationUtils.getInstance().sendImageMessage(imagePath);
             pathlist.add(imagePath);
         }
+    }
+
+    @Override
+    public void onFinishedRecord(String audioPath) {
+        ConversationUtils.getInstance().getConversation(TIMConversationType.C2C, "lzllzllhl2");
+        ConversationUtils.getInstance().sendSoundMessage(audioPath);
+        Toast.makeText(this, audioPath, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void readCancel() {
+
+    }
+
+    @Override
+    public void noCancel() {
+
+    }
+
+    @Override
+    public void onActionDown() {
+
+    }
+
+    @Override
+    public void onActionUp() {
+
+    }
+
+    @Override
+    public void onActionMove() {
+
     }
 }
