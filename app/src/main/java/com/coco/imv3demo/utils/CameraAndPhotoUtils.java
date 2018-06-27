@@ -1,4 +1,4 @@
-package com.coco.imv3demo;
+package com.coco.imv3demo.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;

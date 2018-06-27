@@ -1,4 +1,4 @@
-package com.coco.imv3demo;
+package com.coco.imv3demo.utils;
 
 import android.util.Log;
 
@@ -23,7 +23,6 @@ import com.tencent.imsdk.ext.group.TIMGroupPendencyListGetSucc;
 import com.tencent.imsdk.ext.group.TIMGroupPendencyMeta;
 import com.tencent.imsdk.ext.group.TIMGroupSelfInfo;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 

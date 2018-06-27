@@ -1,6 +1,5 @@
-package com.coco.imv3demo;
+package com.coco.imv3demo.utils;
 
-import android.os.Environment;
 import android.util.Log;
 
 import com.tencent.imsdk.TIMConversation;

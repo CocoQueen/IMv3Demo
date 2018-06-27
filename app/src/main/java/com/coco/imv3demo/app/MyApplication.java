@@ -1,18 +1,14 @@
-package com.coco.imv3demo;
+package com.coco.imv3demo.app;
 
 import android.app.Application;
-import android.os.Environment;
 import android.util.Log;
 
 import com.tencent.imsdk.TIMConnListener;
 import com.tencent.imsdk.TIMConversation;
-import com.tencent.imsdk.TIMFriendshipSettings;
 import com.tencent.imsdk.TIMGroupEventListener;
 import com.tencent.imsdk.TIMGroupMemberInfo;
-import com.tencent.imsdk.TIMGroupSettings;
 import com.tencent.imsdk.TIMGroupTipsElem;
 import com.tencent.imsdk.TIMLogLevel;
-import com.tencent.imsdk.TIMLogListener;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMRefreshListener;
 import com.tencent.imsdk.TIMSNSChangeInfo;
@@ -27,14 +23,8 @@ import com.tencent.imsdk.ext.message.TIMUserConfigMsgExt;
 import com.tencent.imsdk.ext.sns.TIMFriendGroup;
 import com.tencent.imsdk.ext.sns.TIMFriendshipProxyListener;
 import com.tencent.imsdk.ext.sns.TIMUserConfigSnsExt;
-import com.tencent.qalsdk.QALInitHelper;
-import com.tencent.qalsdk.QALSDKManager;
-import com.tencent.qalsdk.service.QalService;
 
 import java.util.List;
-
-import tencent.tls.platform.TLSAccountHelper;
-import tencent.tls.platform.TLSLoginHelper;
 
 /**
  * Created by ydx on 18-6-21.
