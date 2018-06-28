@@ -18,17 +18,25 @@ import android.widget.Toast;
 import com.coco.imv3demo.R;
 import com.coco.imv3demo.utils.CameraAndPhotoUtils;
 import com.coco.imv3demo.utils.ConversationUtils;
+import com.coco.imv3demo.utils.GroupMannagerUtils;
 import com.coco.imv3demo.utils.RecordButton;
+import com.coco.imv3demo.utils.RelationShipUtils;
 import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
 import com.tencent.imsdk.TIMElem;
 import com.tencent.imsdk.TIMElemType;
+import com.tencent.imsdk.TIMFriendAllowType;
+import com.tencent.imsdk.TIMFriendGenderType;
+import com.tencent.imsdk.TIMFriendshipManager;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMMessageListener;
 import com.tencent.imsdk.TIMSoundElem;
 import com.tencent.imsdk.TIMValueCallBack;
+import com.tencent.imsdk.ext.group.TIMGroupManagerExt;
+import com.tencent.imsdk.ext.sns.TIMAddFriendRequest;
+import com.tencent.imsdk.ext.sns.TIMFriendshipManagerExt;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -90,8 +98,12 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 //                GroupMannagerUtils.getInstance().createGroup("Private", "coco2",
 //                        "introduction", "公告", username,
 //                        null,null);
-//                break;
+                GroupMannagerUtils.getInstance().getGroupList();
+                GroupMannagerUtils.getInstance().deleteGroup("@TGS#2VWSHEJF5");
 
+                GroupMannagerUtils.getInstance().quitGroup("@TGS#2VWSHEJF5");
+
+                break;
             case R.id.btn_invate:
 
                 showChoosePicDialog();
@@ -105,7 +117,26 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
                 break;
             case R.id.btn_loginOut:
-                loginOut();
+//                loginOut();
+                TIMAddFriendRequest request = new TIMAddFriendRequest("lzllzllhl2");
+                List<TIMAddFriendRequest> list = new ArrayList<>();
+                list.add(request);
+                RelationShipUtils.getInstance().addFriend(list);
+
+                RelationShipUtils.getInstance().setFriendProfile(new TIMFriendshipManagerExt.ModifySnsProfileParam("lzllzllhl2").setRemark("芝芝"));
+
+                RelationShipUtils.getInstance().getFriendList();
+
+                TIMFriendshipManager.ModifyUserProfileParam param = new TIMFriendshipManager.ModifyUserProfileParam();
+                param.setNickname("coco");
+                param.setGender(TIMFriendGenderType.Female);
+                param.setSelfSignature("开心最重要");
+                param.setAllowType(TIMFriendAllowType.TIM_FRIEND_NEED_CONFIRM);
+
+                RelationShipUtils.getInstance().setSelfProfile(param);
+                RelationShipUtils.getInstance().getSelfProfile();
+
+
                 break;
         }
     }

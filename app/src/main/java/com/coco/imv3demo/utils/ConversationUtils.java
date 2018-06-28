@@ -2,17 +2,25 @@ package com.coco.imv3demo.utils;
 
 import android.util.Log;
 
+import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
+import com.tencent.imsdk.TIMElem;
+import com.tencent.imsdk.TIMElemType;
 import com.tencent.imsdk.TIMFaceElem;
 import com.tencent.imsdk.TIMFileElem;
+import com.tencent.imsdk.TIMImage;
 import com.tencent.imsdk.TIMImageElem;
 import com.tencent.imsdk.TIMLocationElem;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
+import com.tencent.imsdk.TIMMessageListener;
 import com.tencent.imsdk.TIMSoundElem;
 import com.tencent.imsdk.TIMTextElem;
 import com.tencent.imsdk.TIMValueCallBack;
+import com.tencent.imsdk.protocol.msg;
+
+import java.util.List;
 
 /**
  * Created by ydx on 18-6-27.
@@ -254,7 +262,7 @@ public class ConversationUtils {
 
     public void sendOnlineMessage() {
         TIMMessage msg = new TIMMessage();
-
+//        TIMElem elem = new TIMTextElem();
 
         conversation.sendMessage(msg, new TIMValueCallBack<TIMMessage>() {
             @Override
@@ -265,6 +273,82 @@ public class ConversationUtils {
             @Override
             public void onSuccess(TIMMessage timMessage) {
                 Log.e(TAG, "onSuccess: " + "sendmsg ok");
+            }
+        });
+    }
+
+    /*获取消息并解析*/
+    public void getMessage(String path) {
+
+        TIMMessage msg = new TIMMessage();
+
+        TIMManager.getInstance().addMessageListener(new TIMMessageListener() {
+            @Override
+            public boolean onNewMessages(List<TIMMessage> list) {
+                for (int i = 0; i < msg.getElementCount(); ++i) {
+//                    TIMMessage msg = list.get(i);
+                    TIMElem elem = msg.getElement(i);
+
+                    //获取当前元素的类型
+                    TIMElemType elemType = elem.getType();
+                    Log.d(TAG, "elem type: " + elemType.name());
+
+                    switch (elemType) {
+                        case Text:
+                            String textMessage = msg.getMsg().toString();
+                            Log.e(TAG, "onNewMessages: " + textMessage);
+                            break;
+                        case Face:
+                            break;
+                        case Image:
+
+                            //遍历一条消息的元素列表
+                            for (int j = 0; j < msg.getElementCount(); ++j) {
+                                TIMElem elem2 = msg.getElement(j);
+                                if (elem2.getType() == TIMElemType.Image) {
+                                    //图片元素
+                                    TIMImageElem e = (TIMImageElem) elem2;
+                                    for (TIMImage image : e.getImageList()) {
+
+                                        //获取图片类型, 大小, 宽高
+                                        Log.d(TAG, "image type: " + image.getType() +
+                                                " image size " + image.getSize() +
+                                                " image height " + image.getHeight() +
+                                                " image width " + image.getWidth());
+
+                                        image.getImage(path, new TIMCallBack() {
+                                            @Override
+                                            public void onError(int code, String desc) {//获取图片失败
+                                                //错误码 code 和错误描述 desc，可用于定位请求失败原因
+                                                //错误码 code 含义请参见错误码表
+                                                Log.d(TAG, "getImage failed. code: " + code + " errmsg: " + desc);
+                                            }
+
+                                            @Override
+                                            public void onSuccess() {//成功，参数为图片数据
+                                                //doSomething
+                                                Log.d(TAG, "getImage success.");
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                            break;
+                        case Location:
+                            break;
+                        case Sound:
+                            break;
+                        case File:
+                            break;
+                        case Video:
+                            break;
+                        case UGC:
+                            break;
+                    }
+                }
+
+
+                return false;
             }
         });
     }
