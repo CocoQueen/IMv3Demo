@@ -264,25 +264,28 @@ public class RelationShipUtils {
         });
     }
 
-    /**
-     * 把用户从黑名单列表删除
-     *
-     * @param identifiers
-     */
-    public void deleteBlackList(List<String> identifiers) {
+//    /**
+//     * 把用户从黑名单列表删除
+//     *
+//     * @param identifiers
+//     */
+//    public void deleteBlackList(List<String> identifiers) {
+//
+//        TIMFriendshipManagerExt.getInstance().delBlackList(identifiers, new TIMValueCallBack<List<TIMFriendResult>>() {
+//            @Override
+//            public void onError(int i, String s) {
+//                Log.e(TAG, "onError: " + i + "===" + s);
+//            }
+//
+//            @Override
+//            public void onSuccess(List<TIMFriendResult> timFriendResults) {
+//                Log.e(TAG, "onSuccess: " + timFriendResults.size());
+//            }
+//        });
+//    }
 
-        TIMFriendshipManagerExt.getInstance().delBlackList(identifiers, new TIMValueCallBack<List<TIMFriendResult>>() {
-            @Override
-            public void onError(int i, String s) {
-                Log.e(TAG, "onError: " + i + "===" + s);
-            }
 
-            @Override
-            public void onSuccess(List<TIMFriendResult> timFriendResults) {
-                Log.e(TAG, "onSuccess: " + timFriendResults.size());
-            }
-        });
-    }
+
 
 
 }

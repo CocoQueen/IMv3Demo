@@ -3,13 +3,18 @@ package com.coco.imv3demo.app;
 import android.app.Application;
 import android.util.Log;
 
+import com.coco.imv3demo.R;
+import com.coco.imv3demo.utils.FriendshipEvent;
 import com.tencent.imsdk.TIMConnListener;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMGroupEventListener;
 import com.tencent.imsdk.TIMGroupMemberInfo;
+import com.tencent.imsdk.TIMGroupReceiveMessageOpt;
 import com.tencent.imsdk.TIMGroupTipsElem;
 import com.tencent.imsdk.TIMLogLevel;
 import com.tencent.imsdk.TIMManager;
+import com.tencent.imsdk.TIMOfflinePushListener;
+import com.tencent.imsdk.TIMOfflinePushNotification;
 import com.tencent.imsdk.TIMRefreshListener;
 import com.tencent.imsdk.TIMSNSChangeInfo;
 import com.tencent.imsdk.TIMSdkConfig;
@@ -23,6 +28,7 @@ import com.tencent.imsdk.ext.message.TIMUserConfigMsgExt;
 import com.tencent.imsdk.ext.sns.TIMFriendGroup;
 import com.tencent.imsdk.ext.sns.TIMFriendshipProxyListener;
 import com.tencent.imsdk.ext.sns.TIMUserConfigSnsExt;
+import com.tencent.qalsdk.sdk.MsfSdkUtils;
 
 import java.util.List;
 
@@ -36,7 +42,7 @@ public class MyApplication extends Application {
 
     static MyApplication app;
     int sdkAppId = 1400104919;
-    int appcount=	29747;
+    int appcount = 29747;
 
     @Override
     public void onCreate() {
@@ -48,6 +54,19 @@ public class MyApplication extends Application {
 
     private void initSDK() {
 
+        if (MsfSdkUtils.isMainProcess(this)) {
+            TIMManager.getInstance().setOfflinePushListener(new TIMOfflinePushListener() {
+                @Override
+                public void handleNotification(TIMOfflinePushNotification notification) {
+                    if (notification.getGroupReceiveMsgOpt() == TIMGroupReceiveMessageOpt.ReceiveAndNotify) {
+                        //消息被设置为需要提醒
+                        notification.doNotify(getApplicationContext(), R.mipmap.ic_launcher);
+                    }
+                }
+            });
+        }
+
+
 //        TLSLoginHelper loginHelper = TLSLoginHelper.getInstance().init(getApplicationContext(),ApiConstant.SDKAPPID,ApiConstant.ACCOUNTTYPE,"1.0");
 //初始化 SDK 基本配置
         TIMSdkConfig config = new TIMSdkConfig(sdkAppId)
@@ -58,7 +77,7 @@ public class MyApplication extends Application {
 
         //初始化 SDK
         boolean init = TIMManager.getInstance().init(getApplicationContext(), config);
-        Log.e(TAG, "initSDK: "+init);
+        Log.e(TAG, "initSDK: " + init);
 //        //基本用户配置
         TIMUserConfig userConfig = new TIMUserConfig()
                 //设置群组资料拉取字段
@@ -123,6 +142,7 @@ public class MyApplication extends Application {
                 //开启消息已读回执
                 .enableReadReceipt(true);
         //资料关系链扩展用户配置
+        TIMUserConfig finalUserConfig = userConfig;
         userConfig = new TIMUserConfigSnsExt(userConfig)
                 //开启资料关系链本地存储
                 .enableFriendshipStorage(true)
@@ -131,6 +151,7 @@ public class MyApplication extends Application {
                     @Override
                     public void OnAddFriends(List<TIMUserProfile> users) {
                         Log.i(TAG, "OnAddFriends");
+                        FriendshipEvent.getInstance().init(finalUserConfig);
                     }
 
                     @Override
@@ -171,33 +192,33 @@ public class MyApplication extends Application {
                 //设置群组资料变更事件监听器
                 .setGroupAssistantListener(new TIMGroupAssistantListener() {
                     @Override
-                    public void onMemberJoin(String groupId, List<TIMGroupMemberInfo> memberInfos) {
-                        Log.i(TAG, "onMemberJoin");
+                    public void onMemberJoin(String s, List<TIMGroupMemberInfo> list) {
+
                     }
 
                     @Override
-                    public void onMemberQuit(String groupId, List<String> members) {
-                        Log.i(TAG, "onMemberQuit");
+                    public void onMemberQuit(String s, List<String> list) {
+
                     }
 
                     @Override
-                    public void onMemberUpdate(String groupId, List<TIMGroupMemberInfo> memberInfos) {
-                        Log.i(TAG, "onMemberUpdate");
+                    public void onMemberUpdate(String s, List<TIMGroupMemberInfo> list) {
+
                     }
 
                     @Override
-                    public void onGroupAdd(TIMGroupCacheInfo groupCacheInfo) {
-                        Log.i(TAG, "onGroupAdd");
+                    public void onGroupAdd(TIMGroupCacheInfo timGroupCacheInfo) {
+
                     }
 
                     @Override
-                    public void onGroupDelete(String groupId) {
-                        Log.i(TAG, "onGroupDelete");
+                    public void onGroupDelete(String s) {
+
                     }
 
                     @Override
-                    public void onGroupUpdate(TIMGroupCacheInfo groupCacheInfo) {
-                        Log.i(TAG, "onGroupUpdate");
+                    public void onGroupUpdate(TIMGroupCacheInfo timGroupCacheInfo) {
+
                     }
                 });
 

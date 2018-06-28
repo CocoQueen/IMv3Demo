@@ -32,6 +32,8 @@ import com.tencent.imsdk.TIMFriendshipManager;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMMessageListener;
+import com.tencent.imsdk.TIMSNSSystemElem;
+import com.tencent.imsdk.TIMSNSSystemType;
 import com.tencent.imsdk.TIMSoundElem;
 import com.tencent.imsdk.TIMValueCallBack;
 import com.tencent.imsdk.ext.group.TIMGroupManagerExt;
@@ -121,6 +123,19 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 TIMAddFriendRequest request = new TIMAddFriendRequest("lzllzllhl2");
                 List<TIMAddFriendRequest> list = new ArrayList<>();
                 list.add(request);
+
+//                TIMSNSSystemElem elem=new TIMSNSSystemElem();
+//                TIMSNSSystemType subType = elem.getSubType();
+//                int value = subType.getValue();
+//                if (value==1){
+//
+//                }
+
+
+                TIMElemType snsTips = TIMElemType.SNSTips;
+
+
+
                 RelationShipUtils.getInstance().addFriend(list);
 
                 RelationShipUtils.getInstance().setFriendProfile(new TIMFriendshipManagerExt.ModifySnsProfileParam("lzllzllhl2").setRemark("芝芝"));
@@ -155,34 +170,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         });
         finish();
     }
-
-    private void getTextMsg() {
-        TIMManager.getInstance().addMessageListener(new TIMMessageListener() {
-            @Override
-            public boolean onNewMessages(List<TIMMessage> list) {
-                TIMMessage msg = list.get(0); /* 消息 */
-
-                for (int i = 0; i < msg.getElementCount(); ++i) {
-                    TIMElem elem = msg.getElement(i);
-
-                    //获取当前元素的类型
-                    TIMElemType elemType = elem.getType();
-                    Log.d(TAG, "elem type: " + elemType.name());
-                    if (elemType == TIMElemType.Text) {
-                        //处理文本消息
-                        String s = msg.getMsg().toString();
-                        Toast.makeText(ChatActivity.this, s, Toast.LENGTH_SHORT).show();
-                    } else if (elemType == TIMElemType.Image) {
-                        //处理图片消息
-                    }//...处理更多消息
-                }
-
-                return false;
-            }
-        });
-
-    }
-
     /**
      * 显示调用本地相机的对话框
      */

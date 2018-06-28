@@ -15,6 +15,8 @@ import com.tencent.imsdk.TIMLocationElem;
 import com.tencent.imsdk.TIMManager;
 import com.tencent.imsdk.TIMMessage;
 import com.tencent.imsdk.TIMMessageListener;
+import com.tencent.imsdk.TIMSNSSystemElem;
+import com.tencent.imsdk.TIMSNSSystemType;
 import com.tencent.imsdk.TIMSoundElem;
 import com.tencent.imsdk.TIMTextElem;
 import com.tencent.imsdk.TIMValueCallBack;
@@ -82,7 +84,12 @@ public class ConversationUtils {
             }
         });
     }
-
+//    public void snsAddFriendMessage(){
+//        TIMMessage msg=new TIMMessage();
+//        TIMSNSSystemElem elem=new TIMSNSSystemElem();
+//        TIMSNSSystemType subType = elem.getSubType();
+//        TIMElemType snsTips = TIMElemType.SNSTips;
+//    }
     /**
      * 发送图片消息
      *
