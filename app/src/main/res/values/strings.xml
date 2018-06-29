@@ -3,4 +3,34 @@
     <string name="cancel">手指上滑,取消发送</string>
     <string name="cancel2">松开手指,取消发送</string>
     <string name="tooShort">时间太短</string>
+
+    <string name="time_yesterday">昨天</string>
+    <string name="time_day">日</string>
+    <string name="time_month">月</string>
+    <string name="time_year">年</string>
+    <string name="time_more">99+</string>
+
+    <string name="chat_press_talk">按住 说话</string>
+    <string name="chat_release_send">松开 结束</string>
+
+    <string name="profile_remark_edit">修改备注</string>
+    <string name="default_group_name">默认分组</string>
+    <string name="summary_video">小视频</string>
+    <string name="summary_file">文件</string>
+    <string name="save_exist">已存在</string>
+    <string name="summary_image">图片</string>
+    <string name="save_succ">保存成功</string>
+    <string name="downloading">正在下载</string>
+    <string name="download_fail">下载失败</string>
+    <string name="summary_voice">撤回消息</string>
+    <string name="chat_content_bad">请检查输入中的敏感词</string>
+    <string name="chat_audio_too_short">时间太短</string>
+    <string name="chat_audio_too_long">时间太长</string>
+    <string name="chat_resend">重发</string>
+    <string name="chat_save">保存</string>
+    <string name="chat_del">删除</string>
+    <string name="chat_pullback">返回</string>
+    <string name="chat_file_not_exist">不存在</string>
+    <string name="chat_file_too_large">太大</string>
+
 </resources>

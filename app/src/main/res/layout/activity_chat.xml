@@ -1,45 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.coco.imv3demo.activity.ChatActivity">
-
-    <EditText
-        android:id="@+id/mEd"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.coco.imv3demo.chat.ChatActivity">
+    <!--<com.coco.imv3demo.chat.TemplateTitle-->
+        <!--android:id="@+id/chat_title"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--/>-->
+    <com.coco.imv3demo.chat.ChatInput
+        android:id="@+id/input_panel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="tips" />
+        android:layout_alignParentBottom="true"/>
 
-    <Button
-        android:id="@+id/btn_send_all"
+    <ListView
+        android:id="@+id/list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="发送文本消息" />
+        android:layout_height="match_parent"
+        android:divider="@null"
+        android:layout_above="@id/input_panel"
+        >
 
-    <Button
-        android:id="@+id/btn_get_all"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="接收文本消息" />
+    </ListView>
+    <com.coco.imv3demo.chat.VoiceSendingView
+        android:id="@+id/voice_sending"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:visibility="gone"
+        android:layout_centerInParent="true"/>
 
-    <Button
-        android:id="@+id/btn_invate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="邀请好友进群" />
 
-    <com.coco.imv3demo.utils.RecordButton
-        android:id="@+id/mBtn_sound"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="发送语音消息" />
 
-    <Button
-        android:id="@+id/btn_loginOut"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="退出" />
-</LinearLayout>
+</RelativeLayout>

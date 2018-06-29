@@ -24,19 +24,11 @@ import com.coco.imv3demo.utils.RelationShipUtils;
 import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMConversationType;
-import com.tencent.imsdk.TIMElem;
 import com.tencent.imsdk.TIMElemType;
 import com.tencent.imsdk.TIMFriendAllowType;
 import com.tencent.imsdk.TIMFriendGenderType;
 import com.tencent.imsdk.TIMFriendshipManager;
 import com.tencent.imsdk.TIMManager;
-import com.tencent.imsdk.TIMMessage;
-import com.tencent.imsdk.TIMMessageListener;
-import com.tencent.imsdk.TIMSNSSystemElem;
-import com.tencent.imsdk.TIMSNSSystemType;
-import com.tencent.imsdk.TIMSoundElem;
-import com.tencent.imsdk.TIMValueCallBack;
-import com.tencent.imsdk.ext.group.TIMGroupManagerExt;
 import com.tencent.imsdk.ext.sns.TIMAddFriendRequest;
 import com.tencent.imsdk.ext.sns.TIMFriendshipManagerExt;
 
@@ -65,7 +57,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat);
+        setContentView(R.layout.activity_chat2);
         username = getIntent().getStringExtra("username");
         setTitle(username);
         initView();
@@ -92,8 +84,9 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_send_all:
-                ConversationUtils.getInstance().getConversation(TIMConversationType.C2C, "lzllzllhl2");
+                ConversationUtils.getInstance().getConversation(TIMConversationType.Group, "@TGS#2VWSHEJF5");
                 ConversationUtils.getInstance().sendMessage(content);
+                ConversationUtils.getInstance().getLocalConversation("@TGS#2VWSHEJF5");
                 mEd.setText("");
                 break;
             case R.id.btn_get_all:

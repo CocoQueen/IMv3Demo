@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.coco.imv3demo.activity.ChatActivity">
+
+    <EditText
+        android:id="@+id/mEd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="tips" />
+
+    <Button
+        android:id="@+id/btn_send_all"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="发送文本消息" />
+
+    <Button
+        android:id="@+id/btn_get_all"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="接收文本消息" />
+
+    <Button
+        android:id="@+id/btn_invate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="邀请好友进群" />
+
+    <com.coco.imv3demo.utils.RecordButton
+        android:id="@+id/mBtn_sound"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="发送语音消息" />
+
+    <Button
+        android:id="@+id/btn_loginOut"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="退出" />
+</LinearLayout>

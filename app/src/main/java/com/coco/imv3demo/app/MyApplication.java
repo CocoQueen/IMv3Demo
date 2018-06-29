@@ -137,6 +137,7 @@ public class MyApplication extends Application {
 
         //消息扩展用户配置
         userConfig = new TIMUserConfigMsgExt(userConfig)
+                .enableRecentContact(true)
                 //禁用消息存储
                 .enableStorage(false)
                 //开启消息已读回执

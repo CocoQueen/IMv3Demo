@@ -20,6 +20,9 @@ import com.tencent.imsdk.TIMSNSSystemType;
 import com.tencent.imsdk.TIMSoundElem;
 import com.tencent.imsdk.TIMTextElem;
 import com.tencent.imsdk.TIMValueCallBack;
+import com.tencent.imsdk.ext.message.TIMConversationExt;
+import com.tencent.imsdk.ext.message.TIMManagerExt;
+import com.tencent.imsdk.ext.message.TIMMessageLocator;
 import com.tencent.imsdk.protocol.msg;
 
 import java.util.List;
@@ -32,6 +35,7 @@ public class ConversationUtils {
     private static final String TAG = "ConversationUtils";
     private static ConversationUtils utils = new ConversationUtils();
     private TIMConversation conversation;
+    private TIMConversationExt ext;
 
     private ConversationUtils() {
     }
@@ -51,6 +55,8 @@ public class ConversationUtils {
         conversation = TIMManager.getInstance().getConversation(
                 type,
                 peer);
+
+        ext = new TIMConversationExt(conversation);
     }
 
     /**
@@ -90,6 +96,7 @@ public class ConversationUtils {
 //        TIMSNSSystemType subType = elem.getSubType();
 //        TIMElemType snsTips = TIMElemType.SNSTips;
 //    }
+
     /**
      * 发送图片消息
      *
@@ -359,4 +366,128 @@ public class ConversationUtils {
             }
         });
     }
+
+
+    /*关于会话的一些操作*/
+
+    public void getAllConversation() {
+        List<TIMConversation> list = TIMManagerExt.getInstance().getConversationList();
+    }
+
+    public void getLocalConversation(String groupId) {
+        //获取会话扩展实例
+        TIMConversation con = TIMManager.getInstance().getConversation(TIMConversationType.Group, groupId);
+        TIMConversationExt conExt = new TIMConversationExt(con);
+        //获取此会话的消息
+        conExt.getLocalMessage(10, //获取此会话最近的 10 条消息
+                null, //不指定从哪条消息开始获取 - 等同于从最新的消息开始往前
+                new TIMValueCallBack<List<TIMMessage>>() {//回调接口
+                    @Override
+                    public void onError(int code, String desc) {//获取消息失败
+                        //接口返回了错误码 code 和错误描述 desc，可用于定位请求失败原因
+                        //错误码 code 含义请参见错误码表
+                        Log.d(TAG, "get message failed. code: " + code + " errmsg: " + desc);
+                    }
+
+                    @Override
+                    public void onSuccess(List<TIMMessage> msgs) {//获取消息成功
+                        TIMMessage lastMsg = msgs.get(msgs.size() - 1);
+                        //遍历取得的消息
+                        for (TIMMessage msg : msgs) {
+                            lastMsg = msg;
+                            //可以通过 timestamp()获得消息的时间戳, isSelf()是否为自己发送的消息
+                            Log.e(TAG, "get msg: " + msg.timestamp() + " self: " + msg.isSelf() + " seq: " + msg.getSeq());
+
+                        }
+                    }
+                });
+    }
+
+    public void getServerMessage(String groupId) {
+        //获取会话扩展实例
+        TIMConversation con = TIMManager.getInstance().getConversation(TIMConversationType.Group, groupId);
+        TIMConversationExt conExt = new TIMConversationExt(con);
+
+//获取此会话的消息
+        conExt.getMessage(10, //获取此会话最近的 10 条消息
+                null, //不指定从哪条消息开始获取 - 等同于从最新的消息开始往前
+                new TIMValueCallBack<List<TIMMessage>>() {//回调接口
+                    @Override
+                    public void onError(int code, String desc) {//获取消息失败
+                        //接口返回了错误码 code 和错误描述 desc，可用于定位请求失败原因
+                        //错误码 code 含义请参见错误码表
+                        Log.d(TAG, "get message failed. code: " + code + " errmsg: " + desc);
+                    }
+
+                    @Override
+                    public void onSuccess(List<TIMMessage> msgs) {//获取消息成功
+
+                        TIMMessage lastMsg = msgs.get(msgs.size() - 1);
+                        //遍历取得的消息
+                        for (TIMMessage msg : msgs) {
+                            lastMsg = msg;
+                            //可以通过 timestamp()获得消息的时间戳, isSelf()是否为自己发送的消息
+                            Log.e(TAG, "get msg: " + msg.timestamp() + " self: " + msg.isSelf() + " seq: " + msg.getSeq());
+
+                        }
+                    }
+                });
+    }
+
+    public void deleteConversation(String user) {
+        TIMManagerExt.getInstance().deleteConversation(TIMConversationType.C2C, user);
+    }
+
+    public void getLastMessage(long count) {
+        ext.getLastMsgs(count);
+    }
+
+    public void deleteLOcalConversation() {
+        ext.deleteLocalMessage(new TIMCallBack() {
+            @Override
+            public void onError(int i, String s) {
+                Log.e(TAG, "onError: " + i + "===" + s);
+            }
+
+            @Override
+            public void onSuccess() {
+                Log.e(TAG, "onSuccess: ");
+            }
+        });
+    }
+
+    public void findLocalConversation(List<TIMMessageLocator> list) {
+        ext.findMessages(list, new TIMValueCallBack<List<TIMMessage>>() {
+            @Override
+            public void onError(int i, String s) {
+                Log.e(TAG, "onError: " + i + "====" + s);
+            }
+
+            @Override
+            public void onSuccess(List<TIMMessage> timMessages) {
+                Log.e(TAG, "onSuccess: ");
+
+            }
+        });
+    }
+
+    /**
+     * 撤回消息
+     *
+     * @param msg
+     */
+    public void revokeMessage(TIMMessage msg) {
+        ext.revokeMessage(msg, new TIMCallBack() {
+            @Override
+            public void onError(int i, String s) {
+                Log.e(TAG, "onError: " + i + "===" + s);
+            }
+
+            @Override
+            public void onSuccess() {
+                Log.e(TAG, "onSuccess: ");
+            }
+        });
+    }
+
 }
