@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.coco.imv3demo.activity.BubleChatActivity">
+
+    <LinearLayout
+        android:id="@+id/ll_send"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/mEd_send"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:hint="请输入聊天内容" />
+
+        <Button
+            android:id="@+id/mBtn_send"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="发送" />
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/mLv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/ll_send"
+        android:divider="@null"
+        android:transcriptMode="alwaysScroll">
+
+    </ListView>
+
+    <RelativeLayout
+        android:layout_width="220dp"
+        android:layout_height="220dp"
+        android:layout_above="@id/ll_send"
+        android:layout_alignParentRight="true"
+        android:background="#a09cf25b">
+
+        <ListView
+            android:id="@+id/mLv_send"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@null"
+            android:transcriptMode="alwaysScroll" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

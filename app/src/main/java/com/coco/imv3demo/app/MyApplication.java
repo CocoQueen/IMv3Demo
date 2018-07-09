@@ -1,15 +1,21 @@
 package com.coco.imv3demo.app;
 
 import android.app.Application;
+import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.coco.imv3demo.R;
+import com.coco.imv3demo.activity.MainActivity;
 import com.coco.imv3demo.utils.FriendshipEvent;
+import com.coco.imv3demo.utils.GroupMannagerUtils;
+import com.tencent.imsdk.TIMCallBack;
 import com.tencent.imsdk.TIMConnListener;
 import com.tencent.imsdk.TIMConversation;
 import com.tencent.imsdk.TIMGroupEventListener;
 import com.tencent.imsdk.TIMGroupMemberInfo;
 import com.tencent.imsdk.TIMGroupReceiveMessageOpt;
+import com.tencent.imsdk.TIMGroupSystemElem;
 import com.tencent.imsdk.TIMGroupTipsElem;
 import com.tencent.imsdk.TIMLogLevel;
 import com.tencent.imsdk.TIMManager;
@@ -22,6 +28,7 @@ import com.tencent.imsdk.TIMUserConfig;
 import com.tencent.imsdk.TIMUserProfile;
 import com.tencent.imsdk.TIMUserStatusListener;
 import com.tencent.imsdk.ext.group.TIMGroupAssistantListener;
+import com.tencent.imsdk.ext.group.TIMGroupBasicSelfInfo;
 import com.tencent.imsdk.ext.group.TIMGroupCacheInfo;
 import com.tencent.imsdk.ext.group.TIMUserConfigGroupExt;
 import com.tencent.imsdk.ext.message.TIMUserConfigMsgExt;
@@ -48,6 +55,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         app = this;
+
         initSDK();
 
     }
@@ -90,6 +98,19 @@ public class MyApplication extends Application {
                     public void onForceOffline() {
                         //被其他终端踢下线
                         Log.i(TAG, "onForceOffline");
+                        Toast.makeText(MyApplication.this, "账号在其他设备上登录", Toast.LENGTH_SHORT).show();
+                        TIMManager.getInstance().logout(new TIMCallBack() {
+                            @Override
+                            public void onError(int i, String s) {
+                                Log.e(TAG, "onError: " + i + "===" + s);
+                            }
+
+                            @Override
+                            public void onSuccess() {
+                                Log.e(TAG, "onSuccess: " + "退出成功");
+                                System.exit(0);//TODO: 退出方式待定
+                            }
+                        });
                     }
 
                     @Override
@@ -127,10 +148,13 @@ public class MyApplication extends Application {
                     @Override
                     public void onRefresh() {
                         Log.i(TAG, "onRefresh");
+                        Toast.makeText(MyApplication.this, "会话刷新完成", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onRefreshConversation(List<TIMConversation> conversations) {
+
+                        Toast.makeText(MyApplication.this, conversations.size(), Toast.LENGTH_SHORT).show();
                         Log.i(TAG, "onRefreshConversation, conversation size: " + conversations.size());
                     }
                 });
@@ -215,11 +239,15 @@ public class MyApplication extends Application {
                     @Override
                     public void onGroupDelete(String s) {
 
+
                     }
 
                     @Override
                     public void onGroupUpdate(TIMGroupCacheInfo timGroupCacheInfo) {
-
+//                        GroupMannagerUtils.getInstance().getGroupList();
+//                        TIMGroupBasicSelfInfo selfInfo = timGroupCacheInfo.getSelfInfo();
+//                        long joinTime = selfInfo.getJoinTime();
+//                        Toast.makeText(MyApplication.this, ""+joinTime, Toast.LENGTH_SHORT).show();
                     }
                 });
 

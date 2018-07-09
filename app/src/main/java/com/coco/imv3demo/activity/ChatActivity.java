@@ -90,9 +90,9 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 mEd.setText("");
                 break;
             case R.id.btn_get_all:
-//                GroupMannagerUtils.getInstance().createGroup("Private", "coco2",
-//                        "introduction", "公告", username,
-//                        null,null);
+                GroupMannagerUtils.getInstance().createGroup("Private", "coco2",
+                        "introduction", "公告", username,
+                        null,null);
                 GroupMannagerUtils.getInstance().getGroupList();
                 GroupMannagerUtils.getInstance().deleteGroup("@TGS#2VWSHEJF5");
 

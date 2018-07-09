@@ -35,7 +35,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         final String user = this.user.getText().toString().trim();
         String pass = this.pass.getText().toString().trim();
 
-        String sig="eJxlj1FrgzAUhd-9FeLzmIkxSgZ7KJ2dQp2UrmXri7gmpre1mqWx2Jb991FbmLDDffs*7uFcLNu2nffp-LFYr5u2Nrk5KeHYT7aDnIc-qBTwvDA50fwfFJ0CLfKiNEL3EFNKPYSGDnBRGyjhblTn6nqbaqAc*C7ve24-fIQw8hlmQwVkD9NoMU4mQda5sCx1mq2*M5*08vXcxBtpPlfAK8YpOYUvajJ7m7MRRKNt4*4RFEWi027qytAN2-C42I3JR-UVYxkj2CZRk-ktzJ4HlQb24j7KYwENCPMG9Cj0AZq6FzyEKfYIusaxfqxfRdhe5A__";
+        String sig="eJxlj1FrgzAUhd-9FeLzmIkxSgZ7KJ2dQp2UrmXri7gmpre1mqWx2Jb991FbmLDDffs*" +
+                "7uFcLNu2nffp-LFYr5u2Nrk5KeHYT7aDnIc-qBTwvDA50fwfFJ0CLfKiNEL3EFNKPYSGDnBRG" +
+                "yjhblTn6nqbaqAc*C7ve24-fIQw8hlmQwVkD9NoMU4mQda5sCx1mq2*M5*08vXcxBtpPlfAK8YpOYUva" +
+                "jJ7m7MRRKNt4*4RFEWi027qytAN2-C42I3JR-UVYxkj2CZRk-ktzJ4HlQb24j7KYwENCPMG9Cj0AZq6F" +
+                "zyEKfYIusaxfqxfRdhe5A__";
 
         TIMManager.getInstance().login(user, sig, new TIMCallBack() {
             @Override

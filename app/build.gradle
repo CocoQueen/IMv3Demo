@@ -61,4 +61,6 @@ dependencies {
     compile 'com.squareup.okhttp3:logging-interceptor:3.2.0'
     compile 'com.squareup.retrofit2:converter-scalars:2.0.0'
 
+    compile 'com.github.lguipeng:BubbleView:1.0.1'
+//    compile 'com.cpiz.bubbleview:bubbleview:1.0.2'
 }
