@@ -72,12 +72,10 @@
 
         <activity android:name=".activity.ChatActivity" />
         <activity android:name=".activity.VoiceActivity" />
-        <activity android:name=".activity.BubleChatActivity"></activity>
-        <activity android:name=".activity.LuYinActivity">
-
-        </activity>
-        <activity android:name=".wechatui.WechatActivity">
-
+        <activity android:name=".activity.BubleChatActivity" />
+        <activity android:name=".activity.LuYinActivity" />
+        <activity android:name=".wechatui.WechatActivity" />
+        <activity android:name=".gridview.GridViewActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
