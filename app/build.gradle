@@ -63,4 +63,8 @@ dependencies {
 
     compile 'com.github.lguipeng:BubbleView:1.0.1'
 //    compile 'com.cpiz.bubbleview:bubbleview:1.0.2'
+
+    compile 'com.abbott.mutiimgloader:mutiimgloader:1.0.1'//仿微信群聊头像合成
+
+    compile 'com.squareup.picasso:picasso:2.3.2'
 }

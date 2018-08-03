@@ -75,12 +75,15 @@
         <activity android:name=".activity.BubleChatActivity" />
         <activity android:name=".activity.LuYinActivity" />
         <activity android:name=".wechatui.WechatActivity" />
-        <activity android:name=".gridview.GridViewActivity">
+        <activity android:name=".gridview.GridViewActivity" />
+        <activity android:name=".ninepatchavatar.NineAvatarActivity"/>
+        <activity android:name=".gridview.AddGridViewActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
     </application>
 
